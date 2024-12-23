@@ -8,11 +8,11 @@
         html, body { 
             margin: 0; 
             padding: 0;
-            width: 100%;
-            height: 100%;
-            /* 修改背景为渐变色 */
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+            width: 100vw;
+            height: 100vh;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         
         body {
@@ -23,15 +23,12 @@
 
         /* 修改游戏容器样式以适应移动端 */
         .game-container {
-            position: relative;
-            width: 100vmin;  /* 使用vmin单位确保在任何屏幕上都是正方形 */
-            height: 100vmin;
-            max-width: 500px;  /* 在大屏幕上限制最大尺寸 */
-            max-height: 500px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
         }
 
         /* 添加网格背景 */
@@ -52,12 +49,13 @@
             display: block;
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 100vmin;
+            max-height: 100vmin;
             /* 添加发光效果 */
             box-shadow: 0 0 15px rgba(76, 175, 80, 0.2);
             position: relative;
             z-index: 1;
+            background: rgba(0, 0, 0, 0.2);
         }
 
         /* 禁用所有可能的滚动 */
@@ -118,7 +116,6 @@
             padding: 15px 30px;
             border: none;
             border-radius: 25px;
-            background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
             cursor: pointer;
             transition: all 0.3s;
@@ -160,17 +157,17 @@
         }
 
         .easy { 
-            background: linear-gradient(135deg, #4CAF50, #45a049);
+            background: linear-gradient(135deg, #4CAF50, #45a049) !important;
             border: 2px solid #4CAF50;
         }
         
         .normal { 
-            background: linear-gradient(135deg, #FF9800, #F57C00);
+            background: linear-gradient(135deg, #FF9800, #F57C00) !important;
             border: 2px solid #FF9800;
         }
         
         .hard { 
-            background: linear-gradient(135deg, #f44336, #e53935);
+            background: linear-gradient(135deg, #f44336, #e53935) !important;
             border: 2px solid #f44336;
         }
 
@@ -308,7 +305,7 @@
             white-space: nowrap;
         }
 
-        /* 响应式设计 */
+        /* 响应���设计 */
         @media (min-width: 1024px) {
             .direction-controls {
                 right: 40px;
@@ -592,6 +589,72 @@
                 font-size: 14px;
             }
         }
+
+        /* 修改难度按钮的基础样式 */
+        .difficulty-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 18px;
+            font-weight: bold;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* 定义每个难度的基础颜色 */
+        .easy {
+            background: linear-gradient(135deg, #4CAF50, #45a049) !important;
+            border: 2px solid #4CAF50;
+        }
+
+        .normal {
+            background: linear-gradient(135deg, #FF9800, #F57C00) !important;
+            border: 2px solid #FF9800;
+        }
+
+        .hard {
+            background: linear-gradient(135deg, #f44336, #e53935) !important;
+            border: 2px solid #f44336;
+        }
+
+        /* 定义选中状态的样式 */
+        .easy-selected {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+        }
+
+        .normal-selected {
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.5);
+        }
+
+        .hard-selected {
+            background: linear-gradient(135deg, #f44336, #e53935);
+            box-shadow: 0 0 15px rgba(244, 67, 54, 0.5);
+        }
+
+        /* 悬停效果 */
+        .difficulty-button:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 选中状态的按钮悬停效果 */
+        .difficulty-button.selected:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -689,7 +752,7 @@
         </div>
     </div>
     <script>
-        // 止所有键盘事件的默认行为
+        // 止所有���盘事件的默认行为
         window.addEventListener('keydown', function(e) {
             if(['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(e.code) > -1) {
                 e.preventDefault();
@@ -703,8 +766,9 @@
         canvas.width = 500;
         canvas.height = 500;
 
-        const GRID_SIZE = 20;
-        const GRID_COUNT = canvas.width / GRID_SIZE;
+        const GRID_COUNT = 25;  // 保持网格数量不变
+        let GRID_SIZE;         // 网格大小将根据画布大小动态计算
+        let BORDER_SIZE;       // 边框大小也将动态计算
 
         let snake = [
             {x: 5, y: 5},
@@ -742,31 +806,31 @@
         }
 
         function drawSnake() {
-            // 绘制蛇身
             snake.forEach((segment, index) => {
                 const x = segment.x * GRID_SIZE;
                 const y = segment.y * GRID_SIZE;
-                const size = GRID_SIZE - 1;
+                const size = GRID_SIZE - BORDER_SIZE;  // 考虑边框大小
 
                 // 为蛇身设置渐变色
                 const gradient = ctx.createLinearGradient(x, y, x + size, y + size);
-                gradient.addColorStop(0, '#4CAF50');    // 浅绿色
-                gradient.addColorStop(1, '#388E3C');    // 绿色
+                gradient.addColorStop(0, '#4CAF50');
+                gradient.addColorStop(1, '#388E3C');
 
                 ctx.fillStyle = gradient;
                 
-                // 圆角矩形
+                // 圆角矩形，圆角大小也随格子大小变化
+                const radius = Math.max(2, GRID_SIZE * 0.2);  // 圆角为格子大小的20%，最小2像素
                 ctx.beginPath();
-                ctx.roundRect(x, y, size, size, 5);
+                ctx.roundRect(x + BORDER_SIZE/2, y + BORDER_SIZE/2, size, size, radius);
                 ctx.fill();
 
                 // 如果是蛇头，添加眼睛
                 if (index === 0) {
                     ctx.fillStyle = 'white';
                     
-                    // 根据方向绘制眼睛
-                    const eyeSize = 3;
-                    const eyeOffset = 5;
+                    // 眼睛大小和位置也随格子大小变化
+                    const eyeSize = Math.max(2, GRID_SIZE * 0.15);  // 眼睛大小为格子的15%
+                    const eyeOffset = GRID_SIZE * 0.25;  // 眼睛偏移为格子的25%
                     
                     if (direction === 'right') {
                         ctx.fillRect(x + size - eyeOffset, y + eyeOffset, eyeSize, eyeSize);
@@ -788,20 +852,19 @@
         function drawFood() {
             const x = food.x * GRID_SIZE;
             const y = food.y * GRID_SIZE;
-            const size = GRID_SIZE - 1;
+            const size = GRID_SIZE - BORDER_SIZE;
             const radius = size / 2;
-            const centerX = x + radius;
-            const centerY = y + radius;
+            const centerX = x + BORDER_SIZE/2 + radius;
+            const centerY = y + BORDER_SIZE/2 + radius;
 
-            // 创建径向渐
+            // 创建径向渐变
             const gradient = ctx.createRadialGradient(
-                centerX, centerY, 2,
+                centerX, centerY, radius * 0.2,
                 centerX, centerY, radius
             );
-            gradient.addColorStop(0, '#FF5722');    // 中心颜色
-            gradient.addColorStop(0.8, '#D84315');  // 边缘颜色
+            gradient.addColorStop(0, '#FF5722');
+            gradient.addColorStop(0.8, '#D84315');
 
-            // 绘制圆形食物
             ctx.beginPath();
             ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
             ctx.fillStyle = gradient;
@@ -809,7 +872,7 @@
 
             // 添加高光效果
             ctx.beginPath();
-            ctx.arc(centerX - 2, centerY - 2, radius/3, 0, Math.PI * 2);
+            ctx.arc(centerX - radius * 0.3, centerY - radius * 0.3, radius * 0.3, 0, Math.PI * 2);
             ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
             ctx.fill();
         }
@@ -858,7 +921,7 @@
                 food = generateFood();
             } else if (chest && head.x === chest.x && head.y === chest.y) {
                 // 吃到宝箱
-                score += 20;  // 额外加分
+                score += 20;  // 额外加���
                 chest = null;  // 移除宝箱
                 // 增加一个身体段
                 snake.push({...snake[snake.length-1]});
@@ -875,7 +938,7 @@
             gameLoop = null;
             chestTimer = null;
             
-            // 绘制半透明遮罩
+            // ��制半透明遮罩
             ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
@@ -920,7 +983,7 @@
                 document.getElementById('gameControlButtons').style.display = 'none';
                 document.getElementById('restartBtn').style.display = 'none';
                 
-                // 保持当前分数和蛇的长度
+                // 保持当前数和蛇的长度
                 const currentScore = score;
                 const currentLength = snake.length;
                 
@@ -945,7 +1008,7 @@
                 // 清除游戏结束的遮罩
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 
-                // 立即更新一次游戏状态
+                // 即更新一次游戏状态
                 update();
             }
         }
@@ -979,7 +1042,7 @@
         }
 
         function update() {
-            // 清除画布
+            // 清除���布
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             // 绘制半透明背景
@@ -1022,7 +1085,7 @@
             const y = chest.y * GRID_SIZE;
             const size = GRID_SIZE - 1;
 
-            // 绘制宝箱底部
+            // 绘制宝箱底��
             ctx.fillStyle = '#FFD700';
             ctx.fillRect(x + 2, y + size/2, size - 4, size/2 - 1);
 
@@ -1081,21 +1144,30 @@
         function setDifficulty(difficulty) {
             currentDifficulty = difficulty;
             document.getElementById('gameOverlay').style.display = 'none';
-            gameStarted = true;  // 先设置游戏状态
+            
+            // 更新所有按钮样式
+            document.querySelectorAll('.difficulty-button').forEach(btn => {
+                btn.classList.remove('selected');
+                // 移除所有可能的难度相关类
+                btn.classList.remove('easy-selected', 'normal-selected', 'hard-selected');
+            });
+            
+            // 找到对应的按钮并添加选中样式
+            const selectedBtn = document.querySelector(`.difficulty-button.${difficulty}`);
+            if (selectedBtn) {
+                selectedBtn.classList.add('selected');
+                selectedBtn.classList.add(`${difficulty}-selected`);
+            }
+            
+            gameStarted = true;  // 设置游戏状态
             // 显示方向键
             document.querySelector('.direction-controls').style.display = 'grid';
             // 隐藏重新开始按钮
             document.getElementById('restartBtn').style.display = 'none';
-            startGame();         // 再开始游戏
-
-            // 更新按钮样式
-            document.querySelectorAll('.difficulty-button').forEach(btn => {
-                btn.classList.remove('selected');
-            });
-            event.target.classList.add('selected');
+            startGame();
         }
 
-        // 初始化时显示规则界面
+        // 初始化时示规则界面
         document.getElementById('gameOverlay').style.display = 'none';
         document.getElementById('rulesOverlay').style.display = 'flex';
 
@@ -1177,6 +1249,7 @@
             document.querySelector('.direction-controls').style.display = 'none';
             // 隐藏重新开始按钮
             document.getElementById('restartBtn').style.display = 'none';
+            
             // 重置游戏状态
             snake = [
                 {x: 5, y: 5},
@@ -1188,7 +1261,50 @@
             gameOver = false;
             food = generateFood();
             chest = null;
+
+            // 重置所有按钮样式到初始状态
+            document.querySelectorAll('.difficulty-button').forEach(btn => {
+                // 移除所有选中状态的类
+                btn.classList.remove('selected', 'easy-selected', 'normal-selected', 'hard-selected');
+                
+                // 只保留基础难度类
+                if (btn.classList.contains('easy')) {
+                    btn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+                } else if (btn.classList.contains('normal')) {
+                    btn.style.background = 'linear-gradient(135deg, #FF9800, #F57C00)';
+                } else if (btn.classList.contains('hard')) {
+                    btn.style.background = 'linear-gradient(135deg, #f44336, #e53935)';
+                }
+            });
         }
+
+        function resizeCanvas() {
+            const size = Math.min(window.innerWidth, window.innerHeight) * 0.95;
+            
+            canvas.width = size;
+            canvas.height = size;
+            
+            // 动态计算网格大小和边框大小
+            GRID_SIZE = size / GRID_COUNT;
+            BORDER_SIZE = Math.max(1, Math.floor(GRID_SIZE * 0.05)); // 边框大小为格子的5%，最小1像素
+            
+            // 更新网格背景大小
+            const gridBackground = document.querySelector('.grid-background');
+            if (gridBackground) {
+                gridBackground.style.backgroundSize = `${GRID_SIZE}px ${GRID_SIZE}px`;
+            }
+            
+            // 重新绘制游戏
+            if (!gameOver && gameLoop) {
+                update();
+            }
+        }
+
+        // 添加窗口大小改变事件监听
+        window.addEventListener('resize', resizeCanvas);
+
+        // 在初始化时调用
+        resizeCanvas();
     </script>
 </body>
 </html> 
