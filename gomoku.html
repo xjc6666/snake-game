@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        body { margin: 0; background: #DEB887; }
-        canvas { display: block; margin: auto; }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        body {
+            background: #DEB887;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        canvas {
+            background: #DEB887;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            max-width: 100vmin;
+            max-height: 100vmin;
+        }
     </style>
 </head>
 <body>
@@ -19,8 +40,8 @@
 
         // 游戏常量
         const BOARD_SIZE = 15;
-        const CELL_SIZE = canvas.width / (BOARD_SIZE + 1);
-        const PIECE_RADIUS = CELL_SIZE * 0.4;
+        let CELL_SIZE = canvas.width / (BOARD_SIZE + 1);
+        let PIECE_RADIUS = CELL_SIZE * 0.4;
 
         // 游戏状态
         let board = Array(BOARD_SIZE).fill().map(() => Array(BOARD_SIZE).fill(null));
@@ -161,8 +182,25 @@
             }
         });
 
+        function resizeCanvas() {
+            const size = Math.min(window.innerWidth, window.innerHeight) * 0.95;
+            
+            canvas.width = size;
+            canvas.height = size;
+            
+            // 重新计算棋盘相关尺寸
+            CELL_SIZE = canvas.width / (BOARD_SIZE + 1);
+            PIECE_RADIUS = CELL_SIZE * 0.4;
+            
+            // 重新绘制棋盘
+            drawBoard();
+        }
+
+        // 添加窗口大小改变事件监听
+        window.addEventListener('resize', resizeCanvas);
+
         // 初始化游戏
-        drawBoard();
+        resizeCanvas();
     </script>
 </body>
 </html> 
