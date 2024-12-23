@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Python游戏中心</title>
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            font-family: 'Microsoft YaHei', sans-serif;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .game-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            width: 600px;
+            margin: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 16px;
+        }
+
+        .control-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .control-button.active {
+            background: rgba(76, 175, 80, 0.5);
+        }
+
+        .game-frame {
+            width: 100%;
+            height: 500px;
+            border: none;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .game-info {
+            margin-top: 10px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: auto;
+        }
+
+        html, body {
+            overflow: hidden;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎮 趣味游戏中心</h1>
+    </div>
+
+    <div class="game-container">
+        <div class="game-controls">
+            <button class="control-button" onclick="loadGame('snake')">贪吃蛇</button>
+            <button class="control-button" onclick="loadGame('gomoku')">五子棋</button>
+        </div>
+        <iframe id="gameFrame" class="game-frame" src="about:blank"></iframe>
+        <div class="game-info" id="gameInfo">
+            选择一个游戏开始
+        </div>
+    </div>
+
+    <footer>
+        Created with ❤️ by Game Center
+    </footer>
+
+    <script>
+        function loadGame(game) {
+            const frame = document.getElementById('gameFrame');
+            const info = document.getElementById('gameInfo');
+            const buttons = document.querySelectorAll('.control-button');
+            
+            // 更新按钮状态
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.includes(game === 'snake' ? '贪吃蛇' : '五子棋')) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // 更新游戏信息
+            if(game === 'snake') {
+                info.textContent = '使用方向键控制蛇的移动';
+                frame.src = 'snake.html';
+            } else {
+                info.textContent = '点击棋盘落子';
+                frame.src = 'gomoku.html';
+            }
+
+            // 加载完成后自动聚焦到iframe
+            frame.onload = function() {
+                frame.focus();
+            }
+        }
+
+        // 点击游戏区域时聚焦到iframe
+        document.getElementById('gameFrame').addEventListener('click', function() {
+            this.focus();
+        });
+    </script>
+</body>
+</html> 
