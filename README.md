@@ -17,4 +17,4 @@
 
 ## 在线游玩
 
-访问 https://你的用户名.github.io/snake-game 即可开始游戏
+访问 https://xjc666.github.io/snake-game 即可开始游戏
